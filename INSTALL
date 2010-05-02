@@ -1,0 +1,33 @@
+Installing ymcExtensionLoader
+
+Requirements:
+- eZ Publish 4.x
+
+
+Installing:
+1. Unpack ymcextensionloader.tar.bz2 in the ezp's extension dir
+
+2. Go into eZ Publish's root directory and apply the patch for integrating 
+the loader into the core:
+# cd /path/to/ezp # patch -p1 < extension/ymcextensionloader/patches/ymcextensionloader_for_ezp_v4.1.0.patch
+
+3. Take a look into site.ini and watch out for the new setting "ymcEnhancedExtensionLoader"
+
+
+
+Configuration:
+
+- Configuring eZ Publish:
+  See settings/site.ini for option ymcEnhancedExtensionLoader:
+
+==========8<==============================================================
+[SiteSettings]
+# Set this to 'enabled' to use the ymcEnhancedExtensionLoader.
+# Note that this setting is only supported in '[ezroot]/settings/site.ini'
+# and '[ezroot]/settings/override/site.ini[.append[.php]]'. Changing or
+# overriding this in any other site.ini isn't supported and therefor won't
+# have any effect at all.
+ymcEnhancedExtensionLoader=disabled
+==========>8==============================================================
+
+Set ymcEnhancedExtensionLoader to "enabled" to activate the ymcExtensionLoader

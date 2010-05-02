@@ -1,0 +1,38 @@
+--- ezpublish-4.1.0/lib/ezutils/classes/ezextension.php	2009-03-17 22:28:58.000000000 +0100
++++ ezpublish-4.1.0_ymcenhanced_extension_loader/lib/ezutils/classes/ezextension.php	2009-04-01 12:39:45.000000000 +0200
+@@ -94,8 +94,18 @@
+      are added to the eZINI override list.
+     */
+     static function activateExtensions( $extensionType = false )
+     {
++        //by ymc-dabe //PATCH: Support for ymcExtensionLoader //start
++        require_once( 'extension/ymcextensionloader/classes/ymcextensionloader.php' );
++        $ymcExtensionLoader = ymcExtensionLoader::getInstance();
++        
++        if ( $ymcExtensionLoader->attribute('is_enabled') )
++        {
++            $ymcExtensionLoader->registerExtensions();
++            return;
++        }
++        //by ymc-dabe //PATCH: Support for ymcExtensionLoader //end
+         $extensionDirectory = eZExtension::baseDirectory();
+         $activeExtensions = eZExtension::activeExtensions( $extensionType );
+         $hasExtensions = false;
+         $ini = eZINI::instance();
+--- ezpublish-4.1.0/settings/site.ini	2009-04-01 12:59:59.000000000 +0200
++++ ezpublish-4.1.0_ymcenhanced_extension_loader/settings/site.ini	2009-04-01 13:05:59.000000000 +0200
+@@ -267,8 +267,14 @@
+ # Note: All filters are placed in the subdirectory urlfilters in extension directory.
+ Filters[]
+ 
+ [SiteSettings]
++# Set this to 'enabled' to use the ymcEnhancedExtensionLoader.
++# Note that this setting is only supported in '[ezroot]/settings/site.ini'
++# and '[ezroot]/settings/override/site.ini[.append[.php]]'. Changing or
++# overriding this in any other site.ini isn't supported and therefor won't
++# have any effect at all.
++ymcEnhancedExtensionLoader=disabled
+ # Name of the site, will be used in default templates in titles.
+ SiteName=eZ Publish
+ # URL of site, often used to link to site in emails etc.
+ SiteURL=example.com
